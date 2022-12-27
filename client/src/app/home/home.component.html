@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand">Dating App</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Likes</a>
+        </li>
+        <li *ngIf="accountService.currentUser$ | async" class="nav-item">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+      <form
+        *ngIf="!(accountService.currentUser$ | async)"
+        #loginForm="ngForm"
+        (ngSubmit)="login()"
+        class="d-flex"
+        role="search"
+      >
+        <input
+          class="form-control"
+          name="username"
+          [(ngModel)]="loginInfo.username"
+          class="form-control me-2"
+          type="text"
+          placeholder="Username"
+        />
+        <input
+          class="form-control"
+          name="password"
+          [(ngModel)]="loginInfo.password"
+          class="form-control me-2"
+          type="text"
+          placeholder="Password"
+        />
+        <button class="btn btn-lg btn-outline-success" type="submit">
+          Login
+        </button>
+      </form>
+
+      <div
+        *ngIf="accountService.currentUser$ | async"
+        class="btn-group"
+        dropdown
+      >
+        <button
+          id="button-basic"
+          dropdownToggle
+          type="button"
+          class="btn btn-primary dropdown-toggle"
+          aria-controls="dropdown-basic"
+        >
+          Welcome user <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-basic"
+          *dropdownMenu
+          class="dropdown-menu mt-3"
+          role="menu"
+          aria-labelledby="button-basic"
+        >
+          <li role="menuitem" style="cursor: pointer">
+            <a class="dropdown-item">Edit profile</a>
+          </li>
+          <li role="menuitem" style="cursor: pointer">
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
