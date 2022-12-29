@@ -6,3 +6,9 @@
   font-weight: bold;
   font-size: 30px;
 }
+.register_form input{
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  width: 100%;
+  padding: 5px;
+}

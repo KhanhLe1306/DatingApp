@@ -1,6 +1,6 @@
-<app-home></app-home>
-<div class="container" style="margin-top: 200px;">
+<app-home (onRegister)="onRegister($event)" [users]="users"></app-home>
+<div class="container" style="margin-top: 200px">
   <ul>
-    <li *ngFor="let i of response">{{ i.userName }}</li>
+    <li *ngFor="let i of users">{{ i.userName }}</li>
   </ul>
 </div>

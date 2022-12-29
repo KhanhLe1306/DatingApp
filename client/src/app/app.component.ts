@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import User from './_models/models';
+import { RegisterUser, User } from './_models/models';
 import { AccountService } from './_services/account.service';
 
 @Component({
@@ -10,9 +10,12 @@ import { AccountService } from './_services/account.service';
 })
 export class AppComponent implements OnInit {
   title = 'client';
-  response: any;
+  users: any;
 
-  constructor(private http: HttpClient, private accountService: AccountService) {}
+  constructor(
+    private http: HttpClient,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
@@ -21,7 +24,7 @@ export class AppComponent implements OnInit {
 
   getUsers() {
     this.http.get('https://localhost:5001/api/users').subscribe({
-      next: (res) => (this.response = res),
+      next: (res) => (this.users = res),
       error: (error) => console.log(error),
       complete: () => console.log('Complete!'),
     });
@@ -32,5 +35,13 @@ export class AppComponent implements OnInit {
     if (!userString) return;
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
+  }
+
+  onRegister(event: RegisterUser) {
+    console.log('Eventemmiter works!');
+    console.log(event);
+    this.accountService.registerUser(event).subscribe({
+      next: (res) => console.log('Register successfully with', res),
+    });
   }
 }

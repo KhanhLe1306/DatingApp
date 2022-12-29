@@ -12,6 +12,9 @@
         <li class="nav-item">
           <a class="nav-link">Likes</a>
         </li>
+        <li *ngIf="!(accountService.currentUser$ | async)" class="nav-item">
+          <a class="nav-link" (click)="toggleRegister()">Register</a>
+        </li>
         <li *ngIf="accountService.currentUser$ | async" class="nav-item">
           <a class="nav-link" (click)="logout()">Logout</a>
         </li>
@@ -76,3 +79,52 @@
     </div>
   </div>
 </nav>
+
+<ng-container
+  *ngIf="!showRegisterForm && !(accountService.currentUser$ | async)"
+>
+  <div class="container text-center" style="margin-top: 200px">
+    <h2>Find your match!</h2>
+    <p>Come on in to view your matches... all you need to do is sign up!</p>
+    <button type="button" class="btn btn-primary" (click)="toggleRegister()">
+      Register
+    </button>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="!(accountService.currentUser$ | async) && showRegisterForm"
+>
+  <form #register_form="ngForm" (ngSubmit)="register()">
+    <div class="container register_form" style="margin-top: 100px">
+      <div style="width: 300px; margin: auto">
+        <h2 class="text-center">Sign up</h2>
+        <hr />
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="registerInfo.username"
+          class="mb-2"
+          placeholder="Username"
+        />
+        <input
+          type="text"
+          name="password"
+          [(ngModel)]="registerInfo.password"
+          placeholder="Password"
+        />
+
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-success me-2">Register</button>
+          <button
+            type="button"
+            class="btn btn-light"
+            (click)="toggleRegister()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>
